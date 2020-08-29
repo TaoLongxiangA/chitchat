@@ -1,7 +1,7 @@
 package main
 
 import (
-	"gwp/Chapter_2_Go_ChitChat/chitchat/data"
+	"chitchat/data"
 	"net/http"
 )
 
