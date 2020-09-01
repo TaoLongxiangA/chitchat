@@ -50,7 +50,7 @@ func loadConfig() {
 }
 
 // Convenience function to redirect to the error message page
-func error_message(writer http.ResponseWriter, request *http.Request, msg string) {
+func errorMessage(writer http.ResponseWriter, request *http.Request, msg string) {
 	url := []string{"/err?msg=", msg}
 	http.Redirect(writer, request, strings.Join(url, ""), 302)
 }
@@ -61,7 +61,7 @@ func session(writer http.ResponseWriter, request *http.Request) (sess data.Sessi
 	if err == nil {
 		sess = data.Session{Uuid: cookie.Value}
 		if ok, _ := sess.Check(); !ok {
-			err = errors.New("Invalid session")
+			err = errors.New("invalid session")
 		}
 	}
 	return
