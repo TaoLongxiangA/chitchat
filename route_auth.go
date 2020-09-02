@@ -31,7 +31,7 @@ func signupAccount(writer http.ResponseWriter, request *http.Request) {
 		Email:    request.PostFormValue("email"),
 		Password: request.PostFormValue("password"),
 	}
-	log.Println("creatuser")
+	log.Println("creature")
 	if err := user.Create(); err != nil {
 		danger(err, "Cannot create user")
 	}
@@ -61,7 +61,6 @@ func authenticate(writer http.ResponseWriter, request *http.Request) {
 	} else {
 		http.Redirect(writer, request, "/login", 302)
 	}
-
 }
 
 // GET /logout

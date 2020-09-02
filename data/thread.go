@@ -90,7 +90,7 @@ func (user *User) CreatePost(conv Thread, body string) (post Post, err error) {
 
 // Get all threads in the database and returns it
 func Threads() (threads []Thread, err error) {
-	rows, err := Db.Query("SELECT id, uuid, topic, user_id, created_at FROM threads ORDER BY created_at DESC")
+	rows, err := Db.Query("SELECT id, uuid, topic, user_id, created_at FROM threads ORDER BY created_at desc")
 	if err != nil {
 		return
 	}
