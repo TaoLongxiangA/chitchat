@@ -25,6 +25,7 @@ func createThread(writer http.ResponseWriter, request *http.Request) {
 		http.Redirect(writer, request, "/login", 302)
 	} else {
 		err = request.ParseForm()
+		//log.Println(request.PostForm)
 		if err != nil {
 			danger(err, "Cannot parse form")
 		}
@@ -43,8 +44,10 @@ func createThread(writer http.ResponseWriter, request *http.Request) {
 // GET /thread/read
 // Show the details of the thread, including the posts and the form to write a post
 func readThread(writer http.ResponseWriter, request *http.Request) {
-	vals := request.URL.Query()
-	uuid := vals.Get("id")
+	//log.Println(request.URL.RawQuery)
+	values := request.URL.Query()
+	//log.Println(values)
+	uuid := values.Get("id")
 	thread, err := data.ThreadByUUID(uuid)
 	if err != nil {
 		errorMessage(writer, request, "Cannot read thread")
