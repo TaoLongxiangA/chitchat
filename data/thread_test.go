@@ -17,7 +17,7 @@ func ThreadDeleteAll() (err error) {
 	return
 }
 
-func Test_CreateThread(t *testing.T) {
+func TestCreateThread(t *testing.T) {
 	setup()
 	if err := users[0].Create(); err != nil {
 		t.Error(err, "Cannot create user.")
