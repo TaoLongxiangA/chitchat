@@ -9,6 +9,7 @@ import (
 // shows the error message page
 func err(writer http.ResponseWriter, request *http.Request) {
 	values := request.URL.Query()
+	//log.Println(values)
 	_, err := session(writer, request)
 	if err != nil {
 		generateHTML(writer, values.Get("msg"), "layout", "public.navbar", "error")
