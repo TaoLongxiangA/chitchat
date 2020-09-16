@@ -22,11 +22,6 @@ type Configuration struct {
 var config Configuration
 var logger *log.Logger
 
-// Convenience function for printing to stdout
-func p(a ...interface{}) {
-	fmt.Println(a)
-}
-
 func init() {
 	loadConfig()
 	file, err := os.OpenFile("chitchat.log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
