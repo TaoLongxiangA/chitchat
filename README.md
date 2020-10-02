@@ -1,2 +1,2 @@
 - 一个简单的论坛网站
-- golang官方库编写，数据库是PostgreSQL，单元测试是官方testing库
+- golang官方库编写，数据库PostgreSQL，单元测试官方testing库
