@@ -10,34 +10,34 @@ func main() {
 	fmt.Println("ChitChat", version(), "started at", config.Address)
 
 	// handle static file
-	mux := http.NewServeMux()
+	//mux := http.NewServeMux()
 	files := http.FileServer(http.Dir(config.Static))
-	mux.Handle("/static/", http.StripPrefix("/static/", files))
+	http.Handle("/static/", http.StripPrefix("/static/", files))
 
 	// all route patterns matched here
 
 	// index
-	mux.HandleFunc("/", index)
+	http.HandleFunc("/", index)
 	// error
-	mux.HandleFunc("/err", err)
+	http.HandleFunc("/err", err)
 
 	// defined in route_auth.go
-	mux.HandleFunc("/login", login)
-	mux.HandleFunc("/logout", logout)
-	mux.HandleFunc("/signup", signup)
-	mux.HandleFunc("/signup_account", signupAccount)
-	mux.HandleFunc("/authenticate", authenticate)
+	http.HandleFunc("/login", login)
+	http.HandleFunc("/logout", logout)
+	http.HandleFunc("/signup", signup)
+	http.HandleFunc("/signup_account", signupAccount)
+	http.HandleFunc("/authenticate", authenticate)
 
 	// defined in route_thread.go
-	mux.HandleFunc("/thread/new", newThread)
-	mux.HandleFunc("/thread/create", createThread)
-	mux.HandleFunc("/thread/post", postThread)
-	mux.HandleFunc("/thread/read", readThread)
+	http.HandleFunc("/thread/new", newThread)
+	http.HandleFunc("/thread/create", createThread)
+	http.HandleFunc("/thread/post", postThread)
+	http.HandleFunc("/thread/read", readThread)
 
 	// starting up the server
 	server := &http.Server{
 		Addr:           config.Address,
-		Handler:        mux,
+		Handler:        nil,
 		ReadTimeout:    time.Duration(config.ReadTimeout * int64(time.Second)),
 		WriteTimeout:   time.Duration(config.WriteTimeout * int64(time.Second)),
 		MaxHeaderBytes: 1 << 20,
