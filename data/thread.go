@@ -42,7 +42,7 @@ func (thread *Thread) NumReplies() (count int) {
 		}
 	}
 	rows.Close()
-	return
+	return count
 }
 
 // get posts to a thread
@@ -59,7 +59,7 @@ func (thread *Thread) Posts() (posts []Post, err error) {
 		posts = append(posts, post)
 	}
 	rows.Close()
-	return
+	return posts, err
 }
 
 // Create a new thread
@@ -83,7 +83,6 @@ func (user *User) CreatePost(thread Thread, body string) (post Post, err error) 
 		return
 	}
 	defer stmt.Close()
-	// use QueryRow to return a row and scan the returned id into the Session struct
 	err = stmt.QueryRow(createUUID(), body, user.Id, thread.Id, time.Now()).Scan(&post.Id, &post.Uuid, &post.Body, &post.UserId, &post.ThreadId, &post.CreatedAt)
 	return
 }
