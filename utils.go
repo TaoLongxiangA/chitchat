@@ -59,7 +59,7 @@ func session(writer http.ResponseWriter, request *http.Request) (sess data.Sessi
 			err = errors.New("invalid session")
 		}
 	}
-	return
+	return sess, err
 }
 
 // parse HTML templates
@@ -71,7 +71,7 @@ func parseTemplateFiles(filenames ...string) (t *template.Template) {
 		files = append(files, fmt.Sprintf("templates/%s.html", file))
 	}
 	t = template.Must(t.ParseFiles(files...))
-	return
+	return t
 }
 
 func generateHTML(writer http.ResponseWriter, data interface{}, filenames ...string) {

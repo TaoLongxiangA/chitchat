@@ -53,7 +53,7 @@ func (session *Session) Check() (valid bool, err error) {
 	if session.Id != 0 {
 		valid = true
 	}
-	return
+	return valid, err
 }
 
 // Delete session from database
@@ -86,9 +86,6 @@ func SessionDeleteAll() (err error) {
 
 // Create a new user, save user info into the database
 func (user *User) Create() (err error) {
-	// Postgres does not automatically return the last insert id, because it would be wrong to assume
-	// you're always using a sequence.You need to use the RETURNING keyword in your insert to get this
-	// information from postgres.
 	statement := "insert into users (uuid, name, email, password, created_at) values ($1, $2, $3, $4, $5) returning id, uuid, created_at"
 	stmt, err := Db.Prepare(statement)
 	if err != nil {
@@ -96,7 +93,6 @@ func (user *User) Create() (err error) {
 	}
 	defer stmt.Close()
 
-	// use QueryRow to return a row and scan the returned id into the User struct
 	err = stmt.QueryRow(createUUID(), user.Name, user.Email, Encrypt(user.Password), time.Now()).Scan(&user.Id, &user.Uuid, &user.CreatedAt)
 	return
 }
@@ -106,7 +102,7 @@ func (user *User) Delete() (err error) {
 	statement := "delete from users where id = $1"
 	stmt, err := Db.Prepare(statement)
 	if err != nil {
-		return
+		return err
 	}
 	defer stmt.Close()
 
@@ -156,7 +152,7 @@ func UserByEmail(email string) (user User, err error) {
 	user = User{}
 	err = Db.QueryRow("SELECT id, uuid, name, email, password, created_at FROM users WHERE email = $1", email).
 		Scan(&user.Id, &user.Uuid, &user.Name, &user.Email, &user.Password, &user.CreatedAt)
-	return
+	return user, err
 }
 
 // Get a single user given the UUID
@@ -164,5 +160,5 @@ func UserByUUID(uuid string) (user User, err error) {
 	user = User{}
 	err = Db.QueryRow("SELECT id, uuid, name, email, password, created_at FROM users WHERE uuid = $1", uuid).
 		Scan(&user.Id, &user.Uuid, &user.Name, &user.Email, &user.Password, &user.CreatedAt)
-	return
+	return user, err
 }
