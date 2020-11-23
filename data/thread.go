@@ -41,7 +41,7 @@ func (thread *Thread) NumReplies() (count int) {
 			return
 		}
 	}
-	rows.Close()
+	_ = rows.Close()
 	return count
 }
 
@@ -58,7 +58,7 @@ func (thread *Thread) Posts() (posts []Post, err error) {
 		}
 		posts = append(posts, post)
 	}
-	rows.Close()
+	_ = rows.Close()
 	return posts, err
 }
 
@@ -100,7 +100,7 @@ func Threads() (threads []Thread, err error) {
 		}
 		threads = append(threads, thread)
 	}
-	rows.Close()
+	_ = rows.Close()
 	return
 }
 
@@ -115,7 +115,7 @@ func ThreadByUUID(uuid string) (thread Thread, err error) {
 // Get the user who started this thread
 func (thread *Thread) User() (user User) {
 	user = User{}
-	Db.QueryRow("SELECT id, uuid, name, email, created_at FROM users WHERE id = $1", thread.UserId).
+	_ = Db.QueryRow("SELECT id, uuid, name, email, created_at FROM users WHERE id = $1", thread.UserId).
 		Scan(&user.Id, &user.Uuid, &user.Name, &user.Email, &user.CreatedAt)
 	return
 }
@@ -123,7 +123,7 @@ func (thread *Thread) User() (user User) {
 // Get the user who wrote the post
 func (post *Post) User() (user User) {
 	user = User{}
-	Db.QueryRow("SELECT id, uuid, name, email, created_at FROM users WHERE id = $1", post.UserId).
+	_ = Db.QueryRow("SELECT id, uuid, name, email, created_at FROM users WHERE id = $1", post.UserId).
 		Scan(&user.Id, &user.Uuid, &user.Name, &user.Email, &user.CreatedAt)
 	return
 }

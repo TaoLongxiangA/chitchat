@@ -143,7 +143,7 @@ func Users() (users []User, err error) {
 		}
 		users = append(users, user)
 	}
-	rows.Close()
+	_ = rows.Close()
 	return
 }
 
