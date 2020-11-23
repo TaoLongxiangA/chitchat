@@ -8,14 +8,14 @@ import (
 
 // GET /login
 // Show the login page
-func login(writer http.ResponseWriter, request *http.Request) {
+func login(writer http.ResponseWriter, _ *http.Request) {
 	t := parseTemplateFiles("login.layout", "public.navbar", "login")
-	t.Execute(writer, nil)
+	_ = t.Execute(writer, nil)
 }
 
 // GET /signup
 // Show the signup page
-func signup(writer http.ResponseWriter, request *http.Request) {
+func signup(writer http.ResponseWriter, _ *http.Request) {
 	generateHTML(writer, nil, "login.layout", "public.navbar", "signup")
 }
 
@@ -70,7 +70,7 @@ func logout(writer http.ResponseWriter, request *http.Request) {
 	if err != http.ErrNoCookie {
 		//warning(err, "Failed to get cookie")
 		session := data.Session{Uuid: cookie.Value}
-		session.DeleteByUUID()
+		_ = session.DeleteByUUID()
 	}
 	http.Redirect(writer, request, "/", 302)
 }
